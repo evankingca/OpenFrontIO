@@ -21,8 +21,10 @@ import "./LangSelector";
 import { LangSelector } from "./LangSelector";
 import { LanguageModal } from "./LanguageModal";
 import { NewsModal } from "./NewsModal";
+/*
 import "./PublicLobby";
 import { PublicLobby } from "./PublicLobby";
+*/
 import { SinglePlayerModal } from "./SinglePlayerModal";
 import { TerritoryPatternsModal } from "./TerritoryPatternsModal";
 import { SendKickPlayerIntentEvent } from "./Transport";
@@ -39,7 +41,9 @@ import { NewsButton } from "./components/NewsButton";
 import "./components/baseComponents/Button";
 import { OButton } from "./components/baseComponents/Button";
 import "./components/baseComponents/Modal";
+/*
 import { discordLogin, getUserMe, isLoggedIn, logOut } from "./jwt";
+*/
 import "./styles.css";
 
 declare global {
@@ -93,7 +97,9 @@ class Client {
   private darkModeButton: DarkModeButton | null = null;
 
   private joinModal: JoinPrivateLobbyModal;
+  /*
   private publicLobby: PublicLobby;
+  */
   private userSettings: UserSettings = new UserSettings();
 
   constructor() {}
@@ -147,12 +153,14 @@ class Client {
       console.warn("Dark mode button element not found");
     }
 
+    /*
     const loginDiscordButton = document.getElementById(
       "login-discord",
     ) as OButton;
     const logoutDiscordButton = document.getElementById(
       "logout-discord",
     ) as OButton;
+    */
 
     this.usernameInput = document.querySelector(
       "username-input",
@@ -161,7 +169,9 @@ class Client {
       console.warn("Username input element not found");
     }
 
+    /*
     this.publicLobby = document.querySelector("public-lobby") as PublicLobby;
+    */
 
     window.addEventListener("beforeunload", () => {
       console.log("Browser is closing");
@@ -233,6 +243,7 @@ class Client {
       territoryModal.open();
     });
 
+    /*
     loginDiscordButton.addEventListener("click", discordLogin);
     const onUserMe = async (userMeResponse: UserMeResponse | false) => {
       const config = await getServerConfigFromClient();
@@ -346,6 +357,7 @@ class Client {
       // TODO: Add caching
       getUserMe().then(onUserMe);
     }
+    */
 
     const settingsModal = document.querySelector(
       "user-setting",
@@ -366,7 +378,9 @@ class Client {
     hostLobbyButton.addEventListener("click", () => {
       if (this.usernameInput?.isValid()) {
         hostModal.open();
+        /*
         this.publicLobby.leaveLobby();
+        */
       }
     });
 
@@ -510,7 +524,9 @@ class Client {
             modal.isModalOpen = false;
           }
         });
+        /*
         this.publicLobby.stop();
+        */
         document.querySelectorAll(".ad").forEach((ad) => {
           (ad as HTMLElement).style.display = "none";
         });
@@ -524,7 +540,9 @@ class Client {
       },
       () => {
         this.joinModal.close();
+        /*
         this.publicLobby.stop();
+        */
         incrementGamesPlayed();
 
         try {
@@ -551,7 +569,9 @@ class Client {
     console.log("leaving lobby, cancelling game");
     this.gameStop();
     this.gameStop = null;
+    /*
     this.publicLobby.leaveLobby();
+    */
   }
 
   private handleKickPlayer(event: CustomEvent<KickPlayerEvent>) {
@@ -571,15 +591,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // WARNING: DO NOT EXPOSE THIS ID
 function getPlayToken(): string {
+  /*
   const result = isLoggedIn();
   if (result !== false) return result.token;
+  */
   return getPersistentIDFromCookie();
 }
 
 // WARNING: DO NOT EXPOSE THIS ID
 export function getPersistentID(): string {
+  /*
   const result = isLoggedIn();
   if (result !== false) return result.claims.sub;
+  */
   return getPersistentIDFromCookie();
 }
 

@@ -16,7 +16,9 @@ import { FPSDisplay } from "./layers/FPSDisplay";
 import { FxLayer } from "./layers/FxLayer";
 import { GameLeftSidebar } from "./layers/GameLeftSidebar";
 import { GameRightSidebar } from "./layers/GameRightSidebar";
+/*
 import { GutterAdModal } from "./layers/GutterAdModal";
+*/
 import { HeadsUpMessage } from "./layers/HeadsUpMessage";
 import { Layer } from "./layers/Layer";
 import { Leaderboard } from "./layers/Leaderboard";
@@ -28,7 +30,9 @@ import { PlayerPanel } from "./layers/PlayerPanel";
 import { RailroadLayer } from "./layers/RailroadLayer";
 import { ReplayPanel } from "./layers/ReplayPanel";
 import { SettingsModal } from "./layers/SettingsModal";
+/*
 import { SpawnAd } from "./layers/SpawnAd";
+*/
 import { SpawnTimer } from "./layers/SpawnTimer";
 import { StructureIconsLayer } from "./layers/StructureIconsLayer";
 import { StructureLayer } from "./layers/StructureLayer";
@@ -209,6 +213,7 @@ export function createRenderer(
   fpsDisplay.eventBus = eventBus;
   fpsDisplay.userSettings = userSettings;
 
+  /*
   const spawnAd = document.querySelector("spawn-ad") as SpawnAd;
   if (!(spawnAd instanceof SpawnAd)) {
     console.error("spawn ad not found");
@@ -222,6 +227,7 @@ export function createRenderer(
     console.error("gutter ad modal not found");
   }
   gutterAdModal.eventBus = eventBus;
+  */
 
   const alertFrame = document.querySelector("alert-frame") as AlertFrame;
   if (!(alertFrame instanceof AlertFrame)) {
@@ -265,8 +271,10 @@ export function createRenderer(
     playerPanel,
     headsUpMessage,
     multiTabModal,
+    /*
     spawnAd,
     gutterAdModal,
+    */
     alertFrame,
     fpsDisplay,
   ];

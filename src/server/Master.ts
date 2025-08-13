@@ -99,13 +99,14 @@ export async function startMaster() {
       // Start scheduling when all workers are ready
       if (readyWorkers.size === config.numWorkers()) {
         log.info("All workers ready, starting game scheduling");
-
+        
+        /*
         const scheduleLobbies = () => {
           schedulePublicGame(playlist).catch((error) => {
             log.error("Error scheduling public game:", error);
           });
         };
-
+        
         setInterval(
           () =>
             fetchLobbies().then((lobbies) => {
@@ -115,6 +116,7 @@ export async function startMaster() {
             }),
           100,
         );
+        */
       }
     }
   });

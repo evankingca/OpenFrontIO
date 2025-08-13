@@ -6,6 +6,8 @@
   </picture>
 </p>
 
+This fork removes analytics, tracking, ads, and public lobbies.
+
 [OpenFront.io](https://openfront.io/) is an online real-time strategy game focused on territorial control and alliance building. Players compete to expand their territory, build structures, and form strategic alliances in various maps based on real-world geography.
 
 This is a fork/rewrite of WarFront.io. Credit to https://github.com/WarFrontIO.
@@ -56,6 +58,22 @@ See LICENSE file for more details.
    ```
 
 ## 🎮 Running the Game
+
+### With Docker
+
+To run with docker, clone the repo to a directory, then in that directory run:
+
+```
+sudo docker build -t openfront .
+```
+
+Once the image is built, run it with:
+
+```
+sudo docker run -p 9000:80 openfront
+```
+
+Where `9000` is the port you want it to be accessible through on your server.
 
 ### Development Mode
 

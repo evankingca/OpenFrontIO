@@ -5,7 +5,9 @@ import { EventBus } from "../../../core/EventBus";
 import { GameUpdateType } from "../../../core/game/GameUpdates";
 import { GameView } from "../../../core/game/GameView";
 import { SendWinnerEvent } from "../../Transport";
+/*
 import { GutterAdModalEvent } from "./GutterAdModal";
+*/
 import { Layer } from "./Layer";
 
 @customElement("win-modal")
@@ -175,7 +177,9 @@ export class WinModal extends LitElement implements Layer {
   }
 
   show() {
+    /*
     this.eventBus.emit(new GutterAdModalEvent(true));
+    */
     setTimeout(() => {
       this.isVisible = true;
       this.requestUpdate();
@@ -187,7 +191,9 @@ export class WinModal extends LitElement implements Layer {
   }
 
   hide() {
+    /*
     this.eventBus.emit(new GutterAdModalEvent(false));
+    */
     this.isVisible = false;
     this.showButtons = false;
     this.requestUpdate();
