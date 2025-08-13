@@ -6,7 +6,9 @@
   </picture>
 </p>
 
-This fork removes analytics, tracking, ads, and public lobbies.
+This fork removes analytics, tracking, ads, and public lobbies. This version is not currently hosted anywhere, but there are some instructions for setting it up with docker below.
+
+Original Readme:
 
 [OpenFront.io](https://openfront.io/) is an online real-time strategy game focused on territorial control and alliance building. Players compete to expand their territory, build structures, and form strategic alliances in various maps based on real-world geography.
 
