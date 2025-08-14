@@ -2,7 +2,9 @@ import cluster from "cluster";
 import * as dotenv from "dotenv";
 import { GameEnv } from "../core/configuration/Config";
 import { getServerConfigFromServer } from "../core/configuration/ConfigLoader";
+/*
 import { Cloudflare, TunnelConfig } from "./Cloudflare";
+*/
 import { startMaster } from "./Master";
 import { startWorker } from "./Worker";
 
@@ -14,9 +16,11 @@ dotenv.config();
 async function main() {
   // Check if this is the primary (master) process
   if (cluster.isPrimary) {
+    /*
     if (config.env() !== GameEnv.Dev) {
       await setupTunnels();
     }
+    */
     console.log("Starting master process...");
     await startMaster();
   } else {
@@ -32,6 +36,7 @@ main().catch((error) => {
   process.exit(1);
 });
 
+/*
 async function setupTunnels() {
   const cloudflare = new Cloudflare(
     config.cloudflareAccountId(),
@@ -65,3 +70,4 @@ async function setupTunnels() {
 
   await cloudflare.startCloudflared();
 }
+*/
