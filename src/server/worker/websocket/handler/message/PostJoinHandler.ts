@@ -1,5 +1,3 @@
-import { Logger } from "winston";
-import { z } from "zod";
 import {
   ClientMessageSchema,
   ClientSendWinnerMessage,
@@ -7,6 +5,8 @@ import {
 } from "../../../../../core/Schemas";
 import { Client } from "../../../../Client";
 import { GameServer } from "../../../../GameServer";
+import { Logger } from "winston";
+import { z } from "zod";
 
 export async function postJoinMessageHandler(
   gs: GameServer,
@@ -42,7 +42,7 @@ export async function postJoinMessageHandler(
         }
         switch (clientMsg.intent.type) {
           case "mark_disconnected": {
-            log.warn(`Should not receive mark_disconnected intent from client`);
+            log.warn("Should not receive mark_disconnected intent from client");
             return;
           }
 
@@ -52,7 +52,7 @@ export async function postJoinMessageHandler(
 
             // Check if the authenticated client is the lobby creator
             if (authenticatedClientID !== gs.lobbyCreatorID) {
-              log.warn(`Only lobby creator can kick players`, {
+              log.warn("Only lobby creator can kick players", {
                 clientID: authenticatedClientID,
                 creatorID: gs.lobbyCreatorID,
                 gameID: gs.id,
@@ -63,14 +63,14 @@ export async function postJoinMessageHandler(
 
             // Don't allow lobby creator to kick themselves
             if (authenticatedClientID === clientMsg.intent.target) {
-              log.warn(`Cannot kick yourself`, {
+              log.warn("Cannot kick yourself", {
                 clientID: authenticatedClientID,
               });
               return;
             }
 
             // Log and execute the kick
-            log.info(`Lobby creator initiated kick of player`, {
+            log.info("Lobby creator initiated kick of player", {
               creatorID: authenticatedClientID,
               gameID: gs.id,
               kickMethod: "websocket",
@@ -102,7 +102,7 @@ export async function postJoinMessageHandler(
         break;
       }
       default: {
-        log.warn(`Unknown message type: ${(clientMsg as any).type}`, {
+        log.warn(`Unknown message type: ${clientMsg.type}`, {
           clientID: client.clientID,
         });
         break;
@@ -131,10 +131,11 @@ function handleWinner(
 
   // Add client vote
   const winnerKey = JSON.stringify(clientMsg.winner);
-  if (!gs.winnerVotes.has(winnerKey)) {
-    gs.winnerVotes.set(winnerKey, { ips: new Set(), winner: clientMsg });
+  let potentialWinner = gs.winnerVotes.get(winnerKey);
+  if (potentialWinner === undefined) {
+    potentialWinner = { ips: new Set(), winner: clientMsg };
+    gs.winnerVotes.set(winnerKey, potentialWinner);
   }
-  const potentialWinner = gs.winnerVotes.get(winnerKey)!;
   potentialWinner.ips.add(client.ip);
 
   const activeUniqueIPs = new Set(gs.activeClients.map((c) => c.ip));
@@ -155,7 +156,7 @@ function handleWinner(
     `Winner determined by ${potentialWinner.ips.size}/${activeUniqueIPs.size} active IPs`,
     {
       gameID: gs.id,
-      winnerKey: winnerKey,
+      winnerKey,
     },
   );
   gs.archiveGame();

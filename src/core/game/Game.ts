@@ -1,4 +1,4 @@
-import { Config } from "../configuration/Config";
+/* eslint-disable max-lines */
 import { AllPlayersStats, ClientID } from "../Schemas";
 import { GameMap, TileRef } from "./GameMap";
 import {
@@ -7,6 +7,7 @@ import {
   PlayerUpdate,
   UnitUpdate,
 } from "./GameUpdates";
+import { Config } from "../configuration/Config";
 import { RailNetwork } from "./RailNetwork";
 import { Stats } from "./Stats";
 import { UnitPredicate } from "./UnitGrid";
@@ -83,6 +84,7 @@ export enum GameMapType {
   FalklandIslands = "Falkland Islands",
   Baikal = "Baikal",
   Halkidiki = "Halkidiki",
+  NorthernHemisphere = "Northern Hemisphere",
   StraitOfGibraltar = "Strait of Gibraltar",
   Italia = "Italia",
   Yenisei = "Yenisei",
@@ -102,6 +104,7 @@ export const mapCategories: Record<string, GameMapType[]> = {
     GameMapType.Asia,
     GameMapType.Africa,
     GameMapType.Oceania,
+    GameMapType.NorthernHemisphere,
   ],
   regional: [
     GameMapType.BlackSea,
@@ -283,9 +286,9 @@ export class Nation {
 }
 
 export class Cell {
-  public index: number;
+  public index: number | undefined;
 
-  private strRepr: string;
+  private readonly strRepr: string;
 
   constructor(
     public readonly x: number,
@@ -354,6 +357,7 @@ export type AllianceRequest = {
   requestor(): Player;
   recipient(): Player;
   createdAt(): Tick;
+  status(): "pending" | "accepted" | "rejected";
 };
 
 export type Alliance = {
@@ -492,7 +496,7 @@ export type TerraNullius = {
 export type Embargo = {
   createdAt: Tick;
   isTemporary: boolean;
-  target: PlayerID;
+  target: Player;
 };
 
 export type Player = {
@@ -603,10 +607,10 @@ export type Player = {
   // Embargo
   hasEmbargoAgainst(other: Player): boolean;
   tradingPartners(): Player[];
-  addEmbargo(other: PlayerID, isTemporary: boolean): void;
+  addEmbargo(other: Player, isTemporary: boolean): void;
   getEmbargoes(): Embargo[];
-  stopEmbargo(other: PlayerID): void;
-  endTemporaryEmbargo(other: PlayerID): void;
+  stopEmbargo(other: Player): void;
+  endTemporaryEmbargo(other: Player): void;
   canTrade(other: Player): boolean;
 
   // Attacking.
@@ -672,7 +676,7 @@ export type Game = {
     tile: TileRef,
     searchRange: number,
     type: UnitType,
-    playerId: PlayerID,
+    playerId?: PlayerID,
   ): boolean;
   nearbyUnits(
     tile: TileRef,

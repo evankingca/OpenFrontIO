@@ -1,14 +1,14 @@
-import { html, LitElement } from "lit";
+import { LitElement, html } from "lit";
+import {
+  ReplaySpeedMultiplier,
+  defaultReplaySpeedMultiplier,
+} from "../../utilities/ReplaySpeedMultiplier";
 import { customElement, property, state } from "lit/decorators.js";
 import { EventBus } from "../../../core/EventBus";
 import { GameView } from "../../../core/game/GameView";
-import { ReplaySpeedChangeEvent } from "../../InputHandler";
-import {
-  defaultReplaySpeedMultiplier,
-  ReplaySpeedMultiplier,
-} from "../../utilities/ReplaySpeedMultiplier";
-import { translateText } from "../../Utils";
 import { Layer } from "./Layer";
+import { ReplaySpeedChangeEvent } from "../../InputHandler";
+import { translateText } from "../../Utils";
 
 export class ShowReplayPanelEvent {
   constructor(
@@ -46,7 +46,8 @@ export class ReplayPanel extends LitElement implements Layer {
 
   tick() {
     if (!this.visible) return;
-    if (this.game!.ticks() % 10 === 0) {
+    if (!this.game) return;
+    if (this.game.ticks() % 10 === 0) {
       this.requestUpdate();
     }
   }
