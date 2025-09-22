@@ -76,7 +76,7 @@ export const buildTable: BuildItemDisplay[][] = [
     {
       unitType: UnitType.Port,
       icon: portIcon,
-      description: "build_menu.desc.port",
+      description: "Build 1 or upgrade up to 10 ports",
       key: "unit_type.port",
       countable: true,
     },
@@ -105,14 +105,14 @@ export const buildTable: BuildItemDisplay[][] = [
     {
       unitType: UnitType.City,
       icon: cityIcon,
-      description: "build_menu.desc.city",
+      description: "Build 1 or upgrade up to 10 cities",
       key: "unit_type.city",
       countable: true,
     },
     {
       unitType: UnitType.Factory,
       icon: factoryIcon,
-      description: "build_menu.desc.factory",
+      description: "Build 1 or upgrade up to 10 factories",
       key: "unit_type.factory",
       countable: true,
     },
@@ -393,12 +393,23 @@ export class BuildMenu extends LitElement implements Layer {
     if (tile === undefined) throw new Error("Missing tile");
     if (this.eventBus === undefined) throw new Error("Not initialized");
     if (buildableUnit.canUpgrade !== false) {
-      this.eventBus.emit(
-        new SendUpgradeStructureIntentEvent(
-          buildableUnit.canUpgrade,
-          buildableUnit.type,
-        ),
-      );
+      if (buildableUnit.type === "City" || buildableUnit.type === "Factory" || buildableUnit.type === "Port") {
+        for (let i = 0; i < 10; i++) {
+          this.eventBus.emit(
+            new SendUpgradeStructureIntentEvent(
+              buildableUnit.canUpgrade,
+              buildableUnit.type,
+            ),
+          );
+        }
+      } else {
+        this.eventBus.emit(
+          new SendUpgradeStructureIntentEvent(
+            buildableUnit.canUpgrade,
+            buildableUnit.type,
+          ),
+        );
+      }
     } else if (buildableUnit.canBuild) {
       this.eventBus.emit(new BuildUnitIntentEvent(buildableUnit.type, tile));
     }
