@@ -105,7 +105,7 @@ export const buildTable: BuildItemDisplay[][] = [
     {
       unitType: UnitType.City,
       icon: cityIcon,
-      description: "Build 1 or upgrade up to 10 cities",
+      description: "Build 1 or upgrade up to 20 cities",
       key: "unit_type.city",
       countable: true,
     },
@@ -393,7 +393,16 @@ export class BuildMenu extends LitElement implements Layer {
     if (tile === undefined) throw new Error("Missing tile");
     if (this.eventBus === undefined) throw new Error("Not initialized");
     if (buildableUnit.canUpgrade !== false) {
-      if (buildableUnit.type === "City" || buildableUnit.type === "Factory" || buildableUnit.type === "Port") {
+      if (buildableUnit.type === "City") {
+        for (let i = 0; i < 20; i++) {
+          this.eventBus.emit(
+            new SendUpgradeStructureIntentEvent(
+              buildableUnit.canUpgrade,
+              buildableUnit.type,
+            ),
+          );
+        }
+      } else if (buildableUnit.type === "Factory" || buildableUnit.type === "Port") {
         for (let i = 0; i < 10; i++) {
           this.eventBus.emit(
             new SendUpgradeStructureIntentEvent(
